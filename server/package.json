@@ -7,21 +7,19 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-  "dev": "node --watch src/index.js",
-  "start": "node src/index.js",
-  "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
-  "docker:up": "docker compose up",
-  "docker:build": "docker compose up --build",
-  "docker:down": "docker compose down",
-  "docker:restart": "docker compose restart",
-  "docker:test": "docker compose run --rm server npm test"
-  },
-  "jest": {
-    "transform": {}
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "docker:up": "docker compose up",
+    "docker:build": "docker compose up --build",
+    "docker:down": "docker compose down",
+    "docker:restart": "docker compose restart",
+    "docker:test": "docker compose run --rm server npm test"
   },
   "dependencies": {
     "dotenv": "^17.3.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mongoose": "^9.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
@@ -30,6 +28,7 @@
     "babel-jest": "^30.2.0",
     "babel-preset-env": "^1.7.0",
     "jest": "^30.2.0",
+    "mongodb-memory-server": "^11.0.1",
     "superagent": "^10.3.0",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.6"
