@@ -11,8 +11,7 @@ import database from './Config/Database.js'
        const db = new database(process.env.MONGO_URI)
 
     await db.connect()
-})();
-
-app.listen(3000, () => {
+    app.listen(3000, () => {
     console.log("Listening")
 })
+})();
