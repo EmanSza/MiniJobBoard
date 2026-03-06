@@ -17,13 +17,16 @@
         "docker:test": "docker compose run --rm server npm test"
     },
     "dependencies": {
+        "bcrypt": "^6.0.0",
         "connect-mongo": "^6.0.0",
         "cors": "^2.8.6",
         "dotenv": "^17.3.1",
         "express": "^5.2.1",
         "express-session": "^1.19.0",
         "http-errors": "^2.0.1",
-        "mongoose": "^9.2.3"
+        "mongoose": "^9.2.3",
+        "passport": "^0.7.0",
+        "passport-local": "^1.0.0"
     },
     "devDependencies": {
         "@babel/core": "^7.29.0",

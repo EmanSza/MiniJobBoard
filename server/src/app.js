@@ -2,10 +2,11 @@ import express from "express";
 import session from 'express-session'
 import cors from 'cors'
 import MongoStore from "connect-mongo";
+import passport from "passport";
 
 import mainRoute from "./Routes/Index.js";
 import jobsRoute from "./Routes/Jobs.js";
-
+import authRoute from './Routes/Auth.js'
 const app = express();
 
 app.use(
@@ -29,10 +30,13 @@ app.use(
         store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
     })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 app.use("/", mainRoute);
 app.use("/jobs", jobsRoute);
+app.use("/auth", authRoute);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
