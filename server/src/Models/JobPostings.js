@@ -20,6 +20,11 @@ const jobPostingsSchema = new Schema({
     content: {
         type: String,
         required: true,
+    },
+    // TODO: Add MongoDB Model for Categorys > Cache with Redis.
+    category: {
+        type: String,
+        required: true
     }
 });
 

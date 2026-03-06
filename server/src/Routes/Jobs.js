@@ -1,11 +1,12 @@
-import { Router } from 'express';
+import { Router } from "express";
 const router = Router();
 
-import { getJobs } from '../Controllers/Jobs.js';
+import { getJobs, createJob, getJob, deleteJob, updateJob } from "../Controllers/Jobs.js";
 
+router.get("/", getJobs);
+router.get("/:identifier", getJob);
+router.post("/", createJob);
+router.delete("/:identifier", deleteJob);
+router.put("/", updateJob)
 
-
-
-router.get("/", getJobs)
-
-export default router
+export default router;

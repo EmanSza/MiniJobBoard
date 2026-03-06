@@ -1,5 +1,6 @@
 export default {
     testEnvironment: 'node',
-    setupFilesAfterEnv: ['./__test__/setup.js'],
+    setupFilesAfterEnv: ['./__tests__/setup.js'],
+    testMatch: ['**/__tests__/**/*.test.js'],
     transform: {}
 }

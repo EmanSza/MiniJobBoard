@@ -8,7 +8,7 @@
 
 ARG NODE_VERSION=24.14.0
 
-FROM node:${NODE_VERSION}-alpine
+FROM node:${NODE_VERSION}-slim
 
 # Use production node environment by default.
 # ENV NODE_ENV production
@@ -16,6 +16,8 @@ FROM node:${NODE_VERSION}-alpine
 # DEVELOPMENT
 ENV NODE_ENV development
 
+
+RUN apt-get update && apt-get install -y libcurl4 && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/src/app
 
@@ -47,4 +49,4 @@ USER node
 EXPOSE 3000
 
 # Run the application.
-CMD node src/index.js
+CMD ["npx", "nodemon", "--legacy-watch", "src/index.js"]
