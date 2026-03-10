@@ -11,8 +11,8 @@ const jobRepository = new JobRepository();
  */
 let getJobs = async () => {
     let jobs = await jobRepository.find({});
-    if (!jobs) throw createError(400, "Job not Created");
-    return jobRepository.find({});
+    if (!jobs) throw createError(400, "Jobs not found");
+    return jobs
 };
 
 /**
