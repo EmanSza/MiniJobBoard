@@ -53,7 +53,7 @@ This means adding a new resource (e.g. Companies, Applications) only requires a 
 |--------|----------|-------------|
 | POST | `/auth/register` | Register a new user |
 | POST | `/auth/login` |  Log in |
-| DELETE | `/auth/logout` |  Log out |
+| DELETE | `/auth/logout` |  Logout |
 
 ---
 
