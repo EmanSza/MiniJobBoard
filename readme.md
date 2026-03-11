@@ -53,7 +53,7 @@ This means adding a new resource (e.g. Companies, Applications) only requires a 
 |--------|----------|-------------|
 | POST | `/auth/register` | Register a new user |
 | POST | `/auth/login` |  Log in |
-| POST | `/auth/logout` | *(Coming soon)* Log out |
+| DELETE | `/auth/logout` |  Log out |
 
 ---
 
@@ -89,7 +89,7 @@ Test coverage includes:
 
 ## Roadmap
 
-- [X] Passport.js login route and session serialization
+* [x] Passport.js login route and session serialization
 - [ ] Auth middleware protecting POST / PUT / DELETE job routes
 - [ ] Frontend (React + TypeScript, Vite)
 - [ ] Job categories with Redis caching (see TODO in `JobPostings.js`)
