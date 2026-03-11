@@ -1,13 +1,17 @@
 import express from "express";
-import session from 'express-session'
-import cors from 'cors'
+import session from "express-session";
+import cors from "cors";
 import MongoStore from "connect-mongo";
 import passport from "passport";
+import InitializePassport from "./Config/Local.js";
 
 import mainRoute from "./Routes/Index.js";
 import jobsRoute from "./Routes/Jobs.js";
-import authRoute from './Routes/Auth.js'
+import authRoute from "./Routes/Auth.js";
+
 const app = express();
+
+InitializePassport(passport);
 
 app.use(
     cors({
@@ -32,7 +36,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 app.use("/", mainRoute);
 app.use("/jobs", jobsRoute);

@@ -35,15 +35,25 @@ let createJob = async (req, res) => {
 
     let job = await jobService.createJob(title, content, category);
 
-    res.status(200).json(job);
+    res.status(201).json(job);
 };
 
+/**
+ * Deletes a job posting by MongoDB ObjectId or slug.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 let deleteJob = async (req, res) => {
     let job = await jobService.deleteJob(req.params.identifier);
 
     res.status(200).json(job);
 };
 
+/**
+ * Updates a job posting by id. Expects `{ id, content }` in the request body.
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 let updateJob = async (req, res) => {
     let job = await jobService.updateJob(req.body.id, req.body.content);
     res.status(200).json(job);

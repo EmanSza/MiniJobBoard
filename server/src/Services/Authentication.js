@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 const userRepository = new UserRepository();
 
 let registerUser = async (email, username, password, tos_agreement) => {
-
+    // Too many database calls? should be able to reduce this
     if (await userRepository.findOne({email:email})) throw createError(409, "Email is already in use")
     if (await userRepository.findOne({username: username})) throw createError(409, "Username is already in use")
 
@@ -19,5 +19,13 @@ let registerUser = async (email, username, password, tos_agreement) => {
     return user
 }
 
+let findUser = async (email) => {
+    let user = await userRepository.findOne({email: email});
 
-export {registerUser};
+    if (!user) return null
+
+    return user
+} 
+
+
+export {registerUser, findUser};

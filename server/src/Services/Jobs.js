@@ -61,6 +61,12 @@ let createJob = async (title, content, category) => {
     return job;
 };
 
+/**
+ * Deletes a job posting by its MongoDB ObjectId.
+ * @param {string} id - MongoDB ObjectId string
+ * @returns {Promise<object>}
+ * @throws {import('http-errors').HttpError} 404 if no job is found
+ */
 let deleteJob = async (id) => {
     const job = await jobRepository.deleteById(id);
     if (job.deletedCount == 0) throw createError(404, "Job not Found.");
@@ -68,6 +74,13 @@ let deleteJob = async (id) => {
     return job;
 };
 
+/**
+ * Updates a job posting by its MongoDB ObjectId. Regenerates slug if title changes.
+ * @param {string} id - MongoDB ObjectId string
+ * @param {object} content - Fields to update
+ * @returns {Promise<import('../Models/JobPostings.js').default>}
+ * @throws {import('http-errors').HttpError} 404 if no job is found
+ */
 let updateJob = async (id, content) => {
     if (content.title) content.slug = slug(content.title);
     const job = await jobRepository.findOneAndUpdate({ _id: id }, content);

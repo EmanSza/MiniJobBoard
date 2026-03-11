@@ -31,7 +31,7 @@ describe('POST /jobs', () => {
     it('creates a job and returns it', async () => {
         const res = await createJob({ title: 'Software Engineer', content: 'Build stuff', category: 'Tech' });
 
-        expect(res.status).toBe(200);
+        expect(res.status).toBe(201);
         expect(res.body.title).toBe('Software Engineer');
         expect(res.body.content).toBe('Build stuff');
         expect(res.body.category).toBe('Tech');
