@@ -1,11 +1,23 @@
 import request from 'supertest';
 
 let app;
+let agent;
+
+const validUser = {
+    email: 'jobtest@example.com',
+    username: 'jobtestuser',
+    password: 'Password1!',
+};
 
 beforeAll(async () => {
-    // Dynamically imported so App.js runs after setup.js's beforeAll has set MONGO_URI
     const { default: appModule } = await import('../src/App.js');
     app = appModule;
+});
+
+beforeEach(async () => {
+    agent = request.agent(app);
+    await agent.post('/auth/register').send(validUser);
+    await agent.post('/auth/login').send({ email: validUser.email, password: validUser.password });
 });
 
 describe('Main Route', () => {
@@ -21,9 +33,9 @@ describe('Main Route', () => {
     });
 });
 
-// Helper to create a job
+// Helper to create a job using the authenticated agent
 const createJob = (overrides = {}) =>
-    request(app)
+    agent
         .post('/jobs')
         .send({ title: 'Default Job', content: 'Some content', category: 'Tech', ...overrides });
 
@@ -41,6 +53,14 @@ describe('POST /jobs', () => {
         const res = await createJob({ title: 'Senior Dev Ops' });
 
         expect(res.body.slug).toBe('senior-dev-ops');
+    });
+
+    it('returns 401 when not authenticated', async () => {
+        const res = await request(app)
+            .post('/jobs')
+            .send({ title: 'Unauthenticated Job', content: 'No auth', category: 'Tech' });
+
+        expect(res.status).toBe(401);
     });
 });
 
@@ -124,7 +144,7 @@ describe('DELETE /jobs/:identifier', () => {
     it('deletes a job by id', async () => {
         const { body: created } = await createJob({ title: 'To Be Deleted' });
 
-        const res = await request(app).delete(`/jobs/${created._id}`);
+        const res = await agent.delete(`/jobs/${created._id}`);
         expect(res.status).toBe(200);
 
         const check = await request(app).get(`/jobs/${created._id}`);
@@ -132,9 +152,16 @@ describe('DELETE /jobs/:identifier', () => {
     });
 
     it('returns 404 when job does not exist', async () => {
-        const res = await request(app).delete('/jobs/000000000000000000000000');
+        const res = await agent.delete('/jobs/000000000000000000000000');
 
         expect(res.status).toBe(404);
+    });
+
+    it('returns 401 when not authenticated', async () => {
+        const { body: created } = await createJob({ title: 'Auth Check Delete' });
+
+        const res = await request(app).delete(`/jobs/${created._id}`);
+        expect(res.status).toBe(401);
     });
 });
 
@@ -147,7 +174,7 @@ describe('PUT /jobs', () => {
     });
 
     it('updates job content', async () => {
-        const res = await request(app)
+        const res = await agent
             .put('/jobs')
             .send({ id: createdJob._id, content: { content: 'Updated content' } });
 
@@ -156,7 +183,7 @@ describe('PUT /jobs', () => {
     });
 
     it('regenerates the slug when title is updated', async () => {
-        const res = await request(app)
+        const res = await agent
             .put('/jobs')
             .send({ id: createdJob._id, content: { title: 'Updated Title' } });
 
@@ -166,7 +193,7 @@ describe('PUT /jobs', () => {
     });
 
     it('does not change the slug when title is not updated', async () => {
-        const res = await request(app)
+        const res = await agent
             .put('/jobs')
             .send({ id: createdJob._id, content: { content: 'New content only' } });
 
@@ -175,10 +202,18 @@ describe('PUT /jobs', () => {
     });
 
     it('returns 404 for a non-existent id', async () => {
-        const res = await request(app)
+        const res = await agent
             .put('/jobs')
             .send({ id: '000000000000000000000000', content: { title: 'Ghost' } });
 
         expect(res.status).toBe(404);
+    });
+
+    it('returns 401 when not authenticated', async () => {
+        const res = await request(app)
+            .put('/jobs')
+            .send({ id: createdJob._id, content: { title: 'No Auth' } });
+
+        expect(res.status).toBe(401);
     });
 });
