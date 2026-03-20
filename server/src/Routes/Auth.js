@@ -2,9 +2,9 @@ import { Router } from "express";
 const router = Router();
 
 import { loginUser, registerUser } from "../Controllers/Authentication.js";
-
+import { loginValidation } from "../Middleware/ValidateAuth.js";
 router.post("/register", registerUser);
-router.post("/login", loginUser);
+router.post("/login", loginValidation(), loginUser);
 
 // TODO: Improve These Routes and call to out Controller
 router.delete("/logout", (req, res, next) => {

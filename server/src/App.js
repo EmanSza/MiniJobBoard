@@ -4,6 +4,7 @@ import cors from "cors";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import InitializePassport from "./Config/Local.js";
+import mongoSanitize from "express-mongo-sanitize";
 
 import mainRoute from "./Routes/Index.js";
 import jobsRoute from "./Routes/Jobs.js";
@@ -20,6 +21,13 @@ app.use(
     })
 );
 app.use(express.json({ limit: "1mb" }));
+
+app.use((req, res, next) => {
+    mongoSanitize.sanitize(req.body);
+    mongoSanitize.sanitize(req.params);
+    mongoSanitize.sanitize(req.query);
+    next();
+});
 app.use(express.urlencoded({ extended: true, limit: "1mb" }));
 app.use(
     session({
@@ -42,7 +50,7 @@ app.use("/jobs", jobsRoute);
 app.use("/auth", authRoute);
 
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    if (!err.status || err.status >= 500) console.error(err.stack);
     res.status(err.status || 500).json({
         error: err.message || "Server error",
     });

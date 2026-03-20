@@ -34,6 +34,7 @@ async function InitializePassport(passport) {
     passport.serializeUser((user, done) => done(null, user._id));
     passport.deserializeUser(async (id, done) => {
         const user = await userRepository.findById(id);
+        if (!user) return done(null, false);
         done(null, {
             _id: user._id,
             email: user.email,
