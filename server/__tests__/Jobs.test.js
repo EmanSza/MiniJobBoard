@@ -163,6 +163,13 @@ describe('DELETE /jobs/:identifier', () => {
         const res = await request(app).delete(`/jobs/${created._id}`);
         expect(res.status).toBe(401);
     });
+
+    it('returns 400 when identifier exceeds 128 characters', async () => {
+        const longIdentifier = 'a'.repeat(129);
+
+        const res = await agent.delete(`/jobs/${longIdentifier}`);
+        expect(res.status).toBe(400);
+    });
 });
 
 describe('PUT /jobs', () => {
@@ -215,5 +222,45 @@ describe('PUT /jobs', () => {
             .send({ id: createdJob._id, content: { title: 'No Auth' } });
 
         expect(res.status).toBe(401);
+    });
+
+    it('returns 400 when id is missing', async () => {
+        const res = await agent
+            .put('/jobs')
+            .send({ content: { title: 'No Id' } });
+
+        expect(res.status).toBe(400);
+    });
+
+    it('returns 400 when id is not a valid MongoDB ObjectId', async () => {
+        const res = await agent
+            .put('/jobs')
+            .send({ id: 'not-a-valid-id', content: { title: 'Bad Id' } });
+
+        expect(res.status).toBe(400);
+    });
+
+    it('returns 400 when content is missing', async () => {
+        const res = await agent
+            .put('/jobs')
+            .send({ id: createdJob._id });
+
+        expect(res.status).toBe(400);
+    });
+
+    it('returns 400 when content is not a plain object', async () => {
+        const res = await agent
+            .put('/jobs')
+            .send({ id: createdJob._id, content: 'a plain string' });
+
+        expect(res.status).toBe(400);
+    });
+
+    it('returns 400 when content is an empty object', async () => {
+        const res = await agent
+            .put('/jobs')
+            .send({ id: createdJob._id, content: {} });
+
+        expect(res.status).toBe(400);
     });
 });
