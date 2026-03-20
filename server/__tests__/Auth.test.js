@@ -11,6 +11,7 @@ const validUser = {
     email: 'test@example.com',
     username: 'testuser',
     password: 'Password1!',
+    tos_agreement: 'true',
 };
 
 // Helper to register a user
@@ -82,8 +83,8 @@ describe('DELETE /auth/logout', () => {
         const logout = await agent.delete('/auth/logout');
         expect(logout.status).toBe(200);
 
-        // Session should be cleared — /auth/get returns empty object when not authenticated
-        const check = await agent.get('/auth/get');
-        expect(check.body).toEqual({});
+        // Session should be cleared — /auth/me returns 401 when not authenticated
+        const check = await agent.get('/auth/me');
+        expect(check.status).toBe(401);
     });
 });
