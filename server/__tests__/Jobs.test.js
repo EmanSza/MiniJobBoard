@@ -7,6 +7,7 @@ const validUser = {
     email: 'jobtest@example.com',
     username: 'jobtestuser',
     password: 'Password1!',
+    tos_agreement: 'true',
 };
 
 beforeAll(async () => {
