@@ -33,27 +33,26 @@ Routes → Controllers → Services → Repository → Mongoose Model
 
 This means adding a new resource (e.g. Companies, Applications) only requires a new Model, a Repository subclass, and the Service/Controller/Route layers — the base `Repository` is reused.
 
-
 ## API Endpoints
 
 ### Jobs
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/jobs` | Get all jobs | No |
-| GET | `/jobs?search=title` | Search jobs by title (case-insensitive) | No |
-| GET | `/jobs/:identifier` | Get job by MongoDB ID or slug | No |
-| POST | `/jobs` | Create a new job | Planned |
-| PUT | `/jobs` | Update a job | Planned |
-| DELETE | `/jobs/:identifier` | Delete a job by ID | Planned |
+| Method | Endpoint             | Description                             | Auth Required |
+| ------ | -------------------- | --------------------------------------- | ------------- |
+| GET    | `/jobs`              | Get all jobs                            | No            |
+| GET    | `/jobs?search=title` | Search jobs by title (case-insensitive) | No            |
+| GET    | `/jobs/:identifier`  | Get job by MongoDB ID or slug           | No            |
+| POST   | `/jobs`              | Create a new job                        | Planned       |
+| PUT    | `/jobs`              | Update a job                            | Planned       |
+| DELETE | `/jobs/:identifier`  | Delete a job by ID                      | Planned       |
 
 ### Auth
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/auth/register` | Register a new user |
-| POST | `/auth/login` |  Log in |
-| DELETE | `/auth/logout` |  Logo ut |
+| Method | Endpoint         | Description         |
+| ------ | ---------------- | ------------------- |
+| POST   | `/auth/register` | Register a new user |
+| POST   | `/auth/login`    | Log in              |
+| DELETE | `/auth/logout`   | Logo ut             |
 
 ---
 
@@ -90,14 +89,25 @@ Test coverage includes:
 ## Roadmap
 
 - [x] Passport.js login route and session serialization
-- [ ] Auth middleware protecting POST / PUT / DELETE job routes
-- [ ] Frontend (React + TypeScript, Vite)
+- [x] Auth middleware protecting POST / PUT / DELETE job routes
+- [ ] Frontend
+  - [x] Login & Register forms
+  - [x] Job listings page - outline
+  - [x] Job detail page - outline
+  - [ ] Auth context / session state
+  - [ ] Admin/HR Dashboard - outline
+  - [ ] Protected "Post a Job" form
 - [ ] Job categories with Redis caching (see TODO in `JobPostings.js`)
 - [ ] Pagination for job listings
 - [ ] User roles (admin vs job seeker)
 - [ ] Job application flow
 
----
+### Hopeful Future
+
+Once Current Roadmap is finished, will extend Roadmap 
+- Custom ATS
+- Anti AI Measures
+- Anti Bot Measures
 
 ## Project Structure
 
