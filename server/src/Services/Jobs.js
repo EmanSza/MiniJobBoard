@@ -1,7 +1,7 @@
 import JobRepository from "../Repository/JobRepository.js";
 import createError from "http-errors";
 import slug from "../Utility/Slug.js";
-
+import { isMongoId } from "../Utility/Regex.js";
 const jobRepository = new JobRepository();
 
 /**
@@ -22,8 +22,7 @@ let getJobs = async () => {
  * @throws {import('http-errors').HttpError} 404 if no job is found
  */
 let getJob = async (identifier) => {
-    const isId = /^[a-f\d]{24}$/i.test(identifier);
-    const filter = isId ? { _id: identifier } : { slug: identifier };
+    const filter = isMongoId(identifier) ? { _id: identifier } : { slug: identifier };
     const job = await jobRepository.findOne(filter);
 
     if (!job) throw createError(404, "Job not found");

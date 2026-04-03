@@ -2,11 +2,9 @@ import { Strategy as LocalStrategy } from "passport-local";
 import UserRepository from "../Repository/UserRepository.js";
 import bcrypt from "bcrypt";
 
-import { findUser } from "../Services/Authentication.js";
 
 let userRepository = new UserRepository();
 let authenicateLocalUser = async (email, password, done) => {
-    // TODO: find user by email, compare password with bcrypt, return done(null, user)
     let user = await userRepository.findOne({ email: email });
 
     if (user == null)
@@ -18,6 +16,7 @@ let authenicateLocalUser = async (email, password, done) => {
                 _id: user._id,
                 email: user.email,
                 username: user.username,
+                isAdministrator: user.isAdministrator,
             });
         } else return done(null, false, "Login information incorrect");
     } catch (err) {
@@ -39,6 +38,7 @@ async function InitializePassport(passport) {
             _id: user._id,
             email: user.email,
             username: user.username,
+            isAdministrator: user.isAdministrator
         });
     });
 }

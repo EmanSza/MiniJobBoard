@@ -9,6 +9,7 @@ import mongoSanitize from "express-mongo-sanitize";
 import mainRoute from "./Routes/Index.js";
 import jobsRoute from "./Routes/Jobs.js";
 import authRoute from "./Routes/Auth.js";
+import userRoute from "./Routes/User.js"
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use(passport.session());
 app.use("/", mainRoute);
 app.use("/jobs", jobsRoute);
 app.use("/auth", authRoute);
+app.use('/user', userRoute)
 
 app.use((err, req, res, next) => {
     if (!err.status || err.status >= 500) console.error(err.stack);

@@ -9,6 +9,7 @@ class UserRepository extends Repository {
     constructor() {
         super(Users);
     }
+
 }
 
 export default UserRepository;

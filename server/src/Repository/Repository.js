@@ -13,28 +13,31 @@ class Repository {
     /**
      * Finds a single document matching the filter.
      * @param {object} filter - Mongoose query filter
+     * @param {object} [projection={}] - Mongoose projection filter
      * @returns {Promise<object|null>}
      */
-    async findOne(filter) {
-        return await this.model.findOne(filter);
+    async findOne(filter, projection = {}) {
+        return await this.model.findOne(filter, projection);
     }
 
     /**
      * Finds all documents matching the filter.
      * @param {object} [filter={}] - Mongoose query filter
+     * @param {object} [projection={}] - Mongoose projection filter
      * @returns {Promise<object[]>}
      */
-    async find(filter = {}) {
-        return await this.model.find(filter);
+    async find(filter = {}, projection = {}) {
+        return await this.model.find(filter, projection);
     }
 
     /**
      * Finds a single document by its `_id`.
      * @param {string} id - MongoDB ObjectId string
+     * @param {object} [projection={}] - Mongoose projection filter
      * @returns {Promise<object|null>}
      */
-    async findById(id) {
-        return await this.model.findById(id);
+    async findById(id, projection = {}) {
+        return await this.model.findById(id, projection);
     }
 
     /**
@@ -63,7 +66,11 @@ class Repository {
      * @param {object} [options={ new: true }] - Mongoose update options
      * @returns {Promise<object|null>}
      */
-    async findOneAndUpdate(filter, data, options = { returnDocument: 'after' }) {
+    async findOneAndUpdate(
+        filter,
+        data,
+        options = { returnDocument: "after" }
+    ) {
         return await this.model.findOneAndUpdate(filter, data, options).exec();
     }
 
